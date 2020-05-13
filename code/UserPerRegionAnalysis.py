@@ -7,10 +7,10 @@ import re
 # Number of users per region, most popular users listed first
 def top_ten_bidders(spark):
 
-    users = spark.read.csv('s3://data3404-nhas9102/data/auctiondb/users.csv', header=True)\
+    users = spark.read.csv('s3://data3404-nhas9102-a2/data/users.csv', header=True)\
                  .select(F.col('region').alias('region_id'))
 
-    regions = spark.read.csv('s3://data3404-nhas9102/data/auctiondb/regions.csv', header=True)\
+    regions = spark.read.csv('s3://data3404-nhas9102-a2/data/regions.csv', header=True)\
                    .select(F.col('Region id').alias('region_id'), F.col('Region Name').alias('region_name'))
 
     region_users = regions.join(users, 'region_id', 'left_outer').drop('region_id')
