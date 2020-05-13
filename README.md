@@ -47,3 +47,38 @@ aws --profile data3404 s3 ls
 7. You have to repeat step 6 every time you close your terminal/powershell if you chose the second option in step 4.
 
 8. You also need to reset your credentials file every 3 hours no matter which option you chose in step 4. This is why I prefer Option 2.
+
+## Set up Git Hooks 
+
+__NOTE__ - You will need git as a prerequisite for this step.
+
+This step will enable you to push your code to S3 everytime you push your code to git.
+
+1. For both Windows/Linux/Mac OS users
+
+```sh
+cd /path-to-your-git-repo/.git/hooks
+cp post-commit.sample post-commit
+chmod +x post-commit
+```
+
+2. Open the post-commit file with your favourite text editor
+
+3. Now, copy the following contents into it. This step will synchroinse the contents of your directory with your s3 bucket you want to upload your python files to every time you commit your code.
+
+```sh
+#!/bin/bash
+# Place this file into the .git/hooks directory inside your project
+
+bucket="s3://{{s3_bucket_name}}";
+localPath="{{/path/to/local/filesystem}}";
+
+
+
+echo "Synchronizing commit to AWS Server...";
+
+aws --profile data3404 s3 sync $localPath $bucket --acl public-read --delete --exclude ".git/*";
+
+echo "Content synchronized successfully!";
+```
+
