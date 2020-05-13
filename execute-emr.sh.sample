@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/credentials
+
+
 S3=$1
 PYFILE=$2
 

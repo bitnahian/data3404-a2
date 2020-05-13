@@ -64,6 +64,8 @@ aws emr create-cluster --applications Name=Hadoop Name=Spark --ec2-attributes '{
 ```sh
 #!/bin/bash
 
+export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/credentials
+
 S3=$1
 PYFILE=$2
 
@@ -82,6 +84,13 @@ aws emr create-cluster \
 --name "${PYFILE}" \
 --scale-down-behavior TERMINATE_AT_TASK_COMPLETION \
 --region us-east-1
+```
+5. Make a file called `execute-emr.sh` in the root directory of your project and put the above contents into the file.
+
+6. Make the file executable 
+
+```sh
+chmod +x execute-emr.sh
 ```
 
 ## Set up Git Hooks 
