@@ -58,13 +58,13 @@ This step will enable you to push your code to S3 everytime you push your code t
 
 ```sh
 cd /path-to-your-git-repo/.git/hooks
-cp post-commit.sample post-commit
+touch post-commit
 chmod +x post-commit
 ```
 
 2. Open the post-commit file with your favourite text editor
 
-3. Now, copy the following contents into it. This step will synchroinse the contents of your directory with your s3 bucket you want to upload your python files to every time you commit your code.
+3. Now, copy the following contents into it. This step will synchroinse the contents of your directory with your s3 bucket you want to upload your python files to. This will be performed after every commit so you can work directly from your local machine.
 
 ```sh
 #!/bin/bash
@@ -77,7 +77,7 @@ localPath="{{/path/to/local/filesystem}}";
 
 echo "Synchronizing commit to AWS Server...";
 
-aws --profile data3404 s3 sync $localPath $bucket --delete --exclude ".git/*";
+aws --profile data3404 s3 sync $localPath $bucket --delete --exclude ".git/*" --exclude "credentials" --exclude ".gitignore";
 
 echo "Content synchronized successfully!";
 ```
