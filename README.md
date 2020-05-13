@@ -2,6 +2,7 @@
 
 1. Follow the steps listed [here](https://aws.amazon.com/cli/) to install the AWS CLI. 
 2. For Windows users, I highly suggest using the Git Bash terminal or Linux Subsystem as this tutorial is written using shell scripting.
+3. Copy your data files into a subdirectory called data. Make sure you add the data directory to the .gitignore file so as not to push all your data into git.
 
 ## 2. Create credentials file
 
