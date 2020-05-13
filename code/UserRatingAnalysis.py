@@ -13,7 +13,7 @@ def userratinganalysis(spark):
     comments = comments.filter(comments.rating >= 5)
     comments = comments.drop('rating') # -> 'to_user_id' -> [.., ..., ...]
     comment_rows = comments.rdd.map(lambda x: x[0]) # -> [ id1, id2, id3, ...] 
-    counts = comment_rows.map(lambda x: (x, 1)) \ # -> [ (id1, 1), (id2, 1), (id3, 1), (id2, 1),...]
+    counts = comment_rows.map(lambda x: (x, 1)) \ 
                          .reduceByKey(add) # -> [ (id1, X), (id2, Y), (id3, Z),...]
     counts_sorted = counts.sortBy(lambda x: x[1], False)
     output = counts_sorted.collect()
