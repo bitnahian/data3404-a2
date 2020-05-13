@@ -77,7 +77,7 @@ localPath="{{/path/to/local/filesystem}}";
 
 echo "Synchronizing commit to AWS Server...";
 
-aws --profile data3404 s3 sync $localPath $bucket --acl public-read --delete --exclude ".git/*";
+aws --profile data3404 s3 sync $localPath $bucket --delete --exclude ".git/*";
 
 echo "Content synchronized successfully!";
 ```
