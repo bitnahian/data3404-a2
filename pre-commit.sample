@@ -1,0 +1,22 @@
+#!/bin/bash
+# Place this file into the .git/hooks directory inside your project
+
+bucket="s3://your-bucket";
+localPath="<path-to-your-git-repo>";
+
+
+echo "Synchronizing commit to AWS Server...";
+
+aws --profile data3404 s3 sync $localPath $bucket --exclude ".git/*" --exclude "credentials" --exclude ".gitignore";
+
+echo "Content synchronized successfully!";
+
+for file in $(git diff --cached --name-only | grep -E '\.(py)$')
+do
+  ./execute-emr.sh $bucket $file 
+  if [ $? -ne 0 ]; then
+    echo "Could not successfully run EMR stage on '$file'. Please check your code and try again."
+    exit 1 # exit with failure status
+  fi
+done
+
