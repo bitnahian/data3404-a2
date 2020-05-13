@@ -1,14 +1,13 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from operator import add
-import argparse
 import re
 
 # filter for at least rating 5;
 # group by userid count 5 star ratings per user
 # join with users table for firstname and last name
 def userratinganalysis(spark):
-    comments = spark.read.csv(args.file, inferSchema =True, header=True)\
+    comments = spark.read.csv("s3://data3404-nhas9102-a2/comments.csv", inferSchema =True, header=True)\
                          .select('to_user_id', 'rating') # DataFrame 
 
     comments = comments.filter(comments.rating >= 5)
@@ -24,9 +23,6 @@ def userratinganalysis(spark):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Analyse AuctionDB data')
-    parser.add_argument('--file', type=str, help='the file name', default='s3://mapreducedata3404/comments.csv')
-    args = parser.parse_args()
 
     spark = SparkSession\
             .builder.appName('UserRatingAnalysis')\
