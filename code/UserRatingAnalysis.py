@@ -7,7 +7,7 @@ import re
 # group by userid count 5 star ratings per user
 # join with users table for firstname and last name
 def userratinganalysis(spark):
-    comments = spark.read.csv("s3://data3404-nhas9102-a2/comments.csv", inferSchema =True, header=True)\
+    comments = spark.read.csv("s3://data3404-nhas9102-a2/data/comments.csv", inferSchema =True, header=True)\
                          .select('to_user_id', 'rating') # DataFrame 
 
     comments = comments.filter(comments.rating >= 5)
