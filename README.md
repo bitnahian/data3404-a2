@@ -80,5 +80,16 @@ echo "Synchronizing commit to AWS Server...";
 aws --profile data3404 s3 sync $localPath $bucket --delete --exclude ".git/*" --exclude "credentials" --exclude ".gitignore";
 
 echo "Content synchronized successfully!";
+
+while read st file; do
+    # skip deleted files
+    if [ "$st" == 'D' ]; then continue; fi
+    # do a check only on the php files
+    if [[ "$file" =~ ".py$" ]] ; then
+        echo "PHP syntax check failed for file: $file"
+        exit 1
+    fi
+done < <(git diff --cached --name-status)
+
 ```
 
